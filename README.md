@@ -1,2 +1,2 @@
 # randomImageSlideshow
-slideshow of images in a folder randomly in a loop
+slideshow of (jpg) images in a folder randomly in an eternal loop
