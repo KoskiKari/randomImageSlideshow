@@ -13,6 +13,7 @@ class App(tk.Frame):
         self.loadImage()
 
     def createCanvas(self):
+        #create canvas to host the image
         self.canvas = tk.Canvas(width=1280,height=720)
         self.canvas.pack()
 
@@ -20,7 +21,7 @@ class App(tk.Frame):
         global images
         global currentImage
 
-        #make sure the image changes
+        #make sure the image is different from the current
         while True:
             tmpImage = random.choice(images)
             if tmpImage != currentImage:
@@ -38,7 +39,7 @@ class App(tk.Frame):
         self.btn.pack(side = 'bottom')
 
     def refresh(self):
-        #destroy and re-initialize image
+        #destroy and re-initialize image and name of file
         self.canvas.delete('all')
         self.loadImage()
         self.lbl.destroy()
@@ -48,15 +49,20 @@ class App(tk.Frame):
         global running
         global afterJob
 
+        #load image and resize to fit canvas
         self.loadImg = Image.open(self.randomImg())
         self.resizedImg = self.loadImg.resize((1280,720),Image.ANTIALIAS)
         self.renderTk = ImageTk.PhotoImage(self.resizedImg)
+
         #add image to canvas
         self.canvas.create_image(0,0,image=self.renderTk,anchor='nw')
 
+        #if first time around run after() plainly
         if not running:
             afterJob = self.canvas.after(3000,self.refresh)
             running = True
+
+        #in case user press update, cancel after() and make new one
         else:
             self.canvas.after_cancel(afterJob)
             afterJob = self.canvas.after(3000,self.refresh)
